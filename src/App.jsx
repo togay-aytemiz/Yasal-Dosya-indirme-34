@@ -57,8 +57,19 @@ export default function App({ serverGeneratedFileId }) {
   const API_KEY_GOOGLE = "AIzaSyAsHfqyC5x921wufVGM7Lr5ugfvG-rf6lk";
 
   const [userAddress, setUserAddress] = useState({ city: null, country: null });
+  const [userIPAddress, setuserIPAddress] = useState(null);
 
   useEffect(() => {
+    const fetchIPAddress = async () => {
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        setuserIPAddress(data.ip);
+      } catch (error) {
+        // console.log(error);
+      }
+    };
+
     navigator.geolocation.getCurrentPosition((position) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
@@ -71,33 +82,36 @@ export default function App({ serverGeneratedFileId }) {
           const data = await rest.json();
           let addressArr = data.results[10].formatted_address.split(",");
           setUserAddress({ city: addressArr[0], country: addressArr[1] });
-          console.log(userAddress);
+          // console.log(data);
+          // console.log(userAddress);
         } catch (error) {
           console.log(error);
         }
       };
 
       getLocationData();
+      fetchIPAddress();
     });
   }, []);
 
   const [downloadClicked, setDownloadClicked] = useState(false);
   const handleClick = (e) => {
     setDownloadClicked(true);
-    console.log(e);
+    // console.log(e);
+    console.log(e.target.dataset.fileId);
 
-    setUserData({
-      ...userData,
-      downloadRequested: true,
-      downloadTimeStamp: new Date().toLocaleString(),
-      requestedFileId: undefined,
-      browser: detect(),
-      location: {
-        ip: undefined,
-        city: userAddress.city,
-        country: userAddress.country,
-      },
-    });
+    // setUserData({
+    //   ...userData,
+    //   downloadRequested: true,
+    //   downloadTimeStamp: new Date().toLocaleString(),
+    //   requestedFileId: e.target.getAttribute("data-file-id"),
+    //   browser: detect(),
+    //   location: {
+    //     ip: userIPAddress,
+    //     city: userAddress.city,
+    //     country: userAddress.country,
+    //   },
+    // });
   };
 
   return (
