@@ -100,18 +100,18 @@ export default function App({ serverGeneratedFileId }) {
     // console.log(e);
     console.log(e.target.dataset.fileId);
 
-    // setUserData({
-    //   ...userData,
-    //   downloadRequested: true,
-    //   downloadTimeStamp: new Date().toLocaleString(),
-    //   requestedFileId: e.target.getAttribute("data-file-id"),
-    //   browser: detect(),
-    //   location: {
-    //     ip: userIPAddress,
-    //     city: userAddress.city,
-    //     country: userAddress.country,
-    //   },
-    // });
+    setUserData({
+      ...userData,
+      downloadRequested: true,
+      downloadTimeStamp: new Date().toLocaleString(),
+      requestedFileId: e.target.getAttribute("data-file-id"),
+      browser: detect(),
+      location: {
+        ip: userIPAddress,
+        city: userAddress.city,
+        country: userAddress.country,
+      },
+    });
   };
 
   return (
